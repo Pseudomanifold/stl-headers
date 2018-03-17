@@ -10,7 +10,7 @@ def process_file(filename):
   in order to prevent duplicates.
   """
 
-  re_include = r'\s*#include\s+<([^>]+)>.*'
+  re_include = r'\s*#include\s+[<\"]([^>\"]+)[>\"].*'
   headers    = set()
 
   with open(filename) as f:

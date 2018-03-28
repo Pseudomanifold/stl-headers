@@ -4,6 +4,9 @@ import os
 import re
 import sys
 
+import matplotlib.pyplot as plt
+import numpy             as np
+
 from collections import Counter
 
 # All system headers defined according to the C++17 standard. This
@@ -62,7 +65,8 @@ def process_headers(headers):
 extensions = [ ".cc", ".C", ".cxx", ".cpp", ".h", ".hh", ".hxx", ".hpp" ]
 root       = sys.argv[1]
 
-header_counts = Counter()
+header_counts        = Counter()
+header_cooccurrences = Counter()
 
 for path, directories, files in os.walk(root):
   for name in files:
@@ -72,6 +76,67 @@ for path, directories, files in os.walk(root):
       headers = process_file(filename)
       headers = process_headers(headers)
 
+      for header1 in headers:
+        for header2 in headers:
+          if header1 < header2:
+            header_cooccurrences[ (header1, header2) ] += 1
+
       header_counts.update(headers)
 
-print(header_counts.most_common(10))
+labels = []
+counts = []
+total  = sum(header_counts.values())
+
+# Prepare labels and counts; this ensures that everything is sorted
+# according to the counts.
+for header, count in header_counts.most_common():
+  labels.append(header)
+  counts.append(count / total)
+
+print("Dominant headers (accounting for 50% of all usages):")
+
+s = 0.0
+for header, count in header_counts.most_common():
+  print("  -", header)
+  s += count / total
+
+  if s >= 0.50:
+    break
+
+########################################################################
+# Plot 1: Individual header counts
+########################################################################
+
+plt.bar(range(len(labels)), counts, align="center")
+plt.xticks(range(len(labels)), labels, rotation="vertical")
+plt.show()
+
+########################################################################
+# Plot 2: Co-occurrences
+########################################################################
+
+header_to_index = dict()
+
+for index, header in enumerate(labels):
+  header_to_index[header] = index
+
+cooccurrence_matrix = np.zeros((len(labels), len(labels)))
+
+for (header1,header2),count in header_cooccurrences.most_common():
+  u = header_to_index[header1]
+  v = header_to_index[header2]
+
+  cooccurrence_matrix[u,v] = count
+  cooccurrence_matrix[v,u] = count
+
+plt.matshow(np.log(cooccurrence_matrix+1))
+plt.xticks(range(len(labels)), labels, rotation="vertical")
+plt.yticks(range(len(labels)), labels)
+
+ax = plt.gca()
+
+# TODO: fix text in cells...
+#for (i,j), z in np.ndenumerate(cooccurrence_matrix):
+#  ax.text(j, i, '{:0.1f}'.format(z), ha='center', va='center')
+
+plt.show()

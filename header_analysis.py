@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+#
+# header_analysis.py: performs an analysis of STL headers in C++
+# software projects.
+#
+# Usage : ./header_analysis.py DIR
+# Output: SVG files of header counts (histogram and matrix)
 
 import os
 import re

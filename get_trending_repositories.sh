@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-DATE_CMD="gdate"
+DATE_CMD="date"
 PAST_MONTH=$($DATE_CMD -d "-1 month" +%Y-%m-%d)
 
 curl -G https://api.github.com/search/repositories \

@@ -16,6 +16,9 @@ can perform an analysis of the headers by calling the main script:
 
 This will create SVG files in the current directory.
 
+See [this blog post](http://bastian.rieck.me/blog/posts/2018/cxx_meta_analysis)
+for a more detailed discussion.
+
 # Examples
 
 The following visualizations have been created by analysing the

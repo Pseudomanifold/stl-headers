@@ -26,6 +26,6 @@ following projects:
 - [Swift](https://github.com/apple/swift)
 - [TensorFlow](https://github.com/tensorflow/tensorflow)
 
-![Histogram](/Examples/stl_headers_histogram.svg?raw=true "Histogram")
+![Histogram](/Examples/stl_headers_histogram.svg "Histogram")
 
-![Matrix](/Examples/stl_headers_cooccurrences.svg?raw=true "Matrix")
+![Matrix](/Examples/stl_headers_cooccurrences.svg "Matrix")

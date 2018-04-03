@@ -103,13 +103,18 @@ for header, count in header_counts.most_common():
   if s >= 0.50:
     break
 
+plt.rcParams["svg.fonttype"]    = "path"
+plt.rcParams["font.sans-serif"] = "Myriad Pro"
+plt.rcParams["font.size"]       = 8
+
+
 ########################################################################
 # Plot 1: Individual header counts
 ########################################################################
 
 plt.bar(range(len(labels)), counts, align="center")
 plt.xticks(range(len(labels)), labels, rotation="vertical")
-plt.show()
+plt.savefig("Header_histogram.svg")
 
 ########################################################################
 # Plot 2: Co-occurrences
@@ -139,4 +144,4 @@ ax = plt.gca()
 #for (i,j), z in np.ndenumerate(cooccurrence_matrix):
 #  ax.text(j, i, '{:0.1f}'.format(z), ha='center', va='center')
 
-plt.show()
+plt.savefig("Header_coocurrences.svg")
